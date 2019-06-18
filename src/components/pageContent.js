@@ -1,7 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
 import "../index.css";
-import "./cpp.css";
 import { Layout, Breadcrumb, Input, Button } from "antd";
 import Sider from "antd/lib/layout/Sider";
 
