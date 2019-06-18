@@ -1,13 +1,13 @@
 import React from "react";
 import "antd/dist/antd.css";
 import "../index.css";
-import { Layout, Breadcrumb, Input, Button } from "antd";
+import { Layout, Breadcrumb, Input, Button, Tag } from "antd";
 import Sider from "antd/lib/layout/Sider";
 
 const { Content } = Layout;
 
 export class PageContent extends React.Component {
-  activeAgent = null;
+  // activeAgent = null;
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ export class PageContent extends React.Component {
 
   componentDidMount() {
     const script = document.createElement("script");
-    script.src = "https://d2cehk6d2egv65.cloudfront.net/amazon-connect.min.js";
+    script.src = "../../module/connect-streams.js";
     script.async = true;
     script.onload = () => this._initializeCCP();
 
@@ -29,7 +29,7 @@ export class PageContent extends React.Component {
 
   _initializeCCP() {
     let that = this;
-    this.connect = connect;
+    this.connect = window["connect"];
     this.connect.core.initCCP(document.getElementById("ccp_container"), {
       ccpUrl: "https://testawsalex.awsapps.com/connect/ccp#/",
       loginPopup: false,
@@ -46,22 +46,26 @@ export class PageContent extends React.Component {
       debugger;
     });
 
-    // this.connect.agent(a => {
-    //   let _this = this;
-    //   if (this.connect.core.initialized) {
-    //     this.activeAgent = _this.f();
-    //     this.setState({
-    //       initializedCCP: true,
-    //       isAgentInitialized: true,
-    //       activeAgent: this
-    //     });
-    //   }
-    // });
+    this.connect.agent(agent => {
+      let _this = this;
+      if (that.connect.core.initialized) {
+        that.setState({
+          initializedCCP: true,
+          isAgentInitialized: true,
+          activeAgent: agent
+        });
+        that._initAgentSubscription();
+      }
+    });
   }
 
-  _initAgentProfile = e => {
-    debugger;
-    console.log(this.activeAgent().getName());
+  _initAgentSubscription() {
+    var that = this;
+    this.state.activeAgent.onRefresh((agent) => {
+      that.setState({
+        activeAgent: agent
+      })
+    });
   };
 
   // renderAgentProfile() {
@@ -76,6 +80,19 @@ export class PageContent extends React.Component {
       "_blank"
     );
     win.focus();
+  }
+
+  getStatusColor(Status) {
+    var color = "#fff";
+    switch (Status) {
+      case "Available":
+        color = "#87d068";
+        break;
+      case "Offline":
+        color = "rgb(143, 150, 140)";
+        break;
+    }
+    return color;
   }
 
   render() {
@@ -102,36 +119,38 @@ export class PageContent extends React.Component {
                 height: 465
               }}
             />
-            <div className="agentInfo">
-              <p>
-                Name:
-                {/* {this.state.activeAgent === null
-            ? ""
-            : this.state.activeAgent.getName()} */}
-              </p>
-              <p>Username:</p>
-              <p>Status:</p>
-              <Button onClick={this._initAgentProfile}>click me</Button>
-            </div>
+            {!this.state.isAgentInitialized
+              ? ""
+              : <div className="agentInfo">
+                <p>
+                  Name: {this.state.activeAgent.getConfiguration().name}
+
+                </p>
+                <p>Username: {this.state.activeAgent.getConfiguration().username}</p>
+
+                <div><label>Status: </label><Tag color={this.getStatusColor(this.state.activeAgent.getStatus().name)}>{this.state.activeAgent.getStatus().name}</Tag></div>
+
+              </div>}
+
           </div>
           {this.state.initializedCCP ? (
             <div />
           ) : (
-            <div style={{ marginBottom: 16 }}>
-              {/* <Input
+              <div style={{ marginBottom: 16 }}>
+                {/* <Input
                 addonBefore="https://"
                 addonAfter=".com/connect/ccp#/"
                 defaultValue="testawsalex"
               /> */}
-              <Button
-                type="primary"
-                style={{ marginTop: "10px", float: "right" }}
-                onClick={this.openConnect}
-              >
-                Login
+                <Button
+                  type="primary"
+                  style={{ marginTop: "10px", float: "right" }}
+                  onClick={this.openConnect}
+                >
+                  Login
               </Button>
-            </div>
-          )}
+              </div>
+            )}
         </div>
       </Content>
     );
