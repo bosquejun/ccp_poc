@@ -119,11 +119,11 @@ export class PageContent extends React.Component {
             <div />
           ) : (
             <div style={{ marginBottom: 16 }}>
-              <Input
+              {/* <Input
                 addonBefore="https://"
                 addonAfter=".com/connect/ccp#/"
                 defaultValue="testawsalex"
-              />
+              /> */}
               <Button
                 type="primary"
                 style={{ marginTop: "10px", float: "right" }}
