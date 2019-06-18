@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,16 +20,17 @@
     work correctly both with client-side routing and a non-root public URL.
     Learn how to configure a non-root public URL by running `npm run build`.
   -->
+  <script src="connect-streams.js"></script>
   <title>React App</title>
-  
-</head>
-<body>
-  <script src="https://d2cehk6d2egv65.cloudfront.net/amazon-connect.min.js"></script>
 
-<div id="container" style="padding: 0"></div>
-<script>
-  var mountNode = document.getElementById("container");
-</script>
+</head>
+
+<body>
+
+  <div id="container" style="padding: 0"></div>
+  <script>
+    var mountNode = document.getElementById("container");
+  </script>
 
   <!--
     This HTML file is a template.
@@ -41,4 +43,5 @@
     To create a production bundle, use `npm run build` or `yarn build`.
   -->
 </body>
+
 </html>

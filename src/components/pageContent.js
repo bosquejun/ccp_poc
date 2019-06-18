@@ -19,12 +19,14 @@ export class PageContent extends React.Component {
   }
 
   componentDidMount() {
-    const script = document.createElement("script");
-    script.src = "../../module/connect-streams.js";
-    script.async = true;
-    script.onload = () => this._initializeCCP();
+    // debugger;
+    // const script = document.createElement("script");
+    // script.src = "../../module/connect-streams";
+    // script.async = true;
+    // script.onload = () => this._initializeCCP();
 
-    document.body.appendChild(script);
+    // document.body.prepend(script);
+    this._initializeCCP();
   }
 
   _initializeCCP() {
