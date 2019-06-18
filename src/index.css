@@ -1,0 +1,14 @@
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.ant-layout-sider {
+  flex: 0 0 320px;
+  max-width: 320px;
+  min-width: 320px;
+  width: 320px;
+}
